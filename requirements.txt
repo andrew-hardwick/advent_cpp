@@ -1,6 +1,8 @@
 advent-of-code-data==2.0.1
 aocd-example-parser==2023.12.17
 beautifulsoup4==4.12.3
+meson==1.5.2
+ninja==1.11.1.1
 Pebble==5.0.7
 soupsieve==2.6
 urllib3==2.2.3
