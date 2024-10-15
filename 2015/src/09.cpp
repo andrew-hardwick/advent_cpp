@@ -59,10 +59,14 @@ namespace advent { namespace y2015 { namespace d09
 	{
 		auto [ distances, locations ] = loadInput(inFilename);
 
-		for (const auto& loc : locations)
+		for (const auto& [ locs, distance ] : distances)
 		{
-			std::cout << loc << "\n";
+			const auto& [ loc1, loc2 ] = locs;
+
+			std::cout << loc1 << " " << loc2 << " " << distance << "\n";
 		}
+			
+
 		return "nonimpl";
 	}
 
