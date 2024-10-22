@@ -3,6 +3,7 @@ project('adventUtility', 'cpp', default_options: ['default_library=static', 'war
 inc_dirs = include_directories('inc')
 
 source = [
+  'src/combinatorics.cpp',
   'src/commonAlg.cpp',
   'src/fileOps.cpp',
   'src/point.cpp',
