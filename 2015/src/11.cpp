@@ -115,12 +115,10 @@ namespace advent { namespace y2015 { namespace d11
 	{
 		auto password = decompose(source);
 
-		step(password);
-
-		while (notAcceptable(password))
+		do
 		{
 			step(password);
-		}
+		} while (notAcceptable(password));
 
 		auto result = reconstitute(password);
 
