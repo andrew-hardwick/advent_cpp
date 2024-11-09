@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 
 namespace advent { namespace utility { namespace fileOps
 {
@@ -11,6 +13,9 @@ namespace advent { namespace utility { namespace fileOps
 			const std::string& inFilename);
 
 	std::vector<std::string> readFileToLines(
+			const std::string& inFilename);
+
+	nlohmann::json readFileToJson(
 			const std::string& inFilename);
 } } }
 

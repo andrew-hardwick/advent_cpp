@@ -17,8 +17,11 @@ namespace advent { namespace utility { namespace commonAlg
 
 		for (const auto& entry : source)
 		{
-			if (fitness(entry) > best)
+			auto entryFitness = fitness(entry);
+			if (entryFitness > best)
 			{
+				best = entryFitness;
+
 				result = entry;
 			}
 		}

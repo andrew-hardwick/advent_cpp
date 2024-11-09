@@ -6,3 +6,6 @@
 **/.cache/*
 
 **/venv/*
+
+**/subprojects/json-3.2.0/*
+**/subprojects/packagecache/*

@@ -11,6 +11,7 @@
 #include "09.h"
 #include "10.h"
 #include "11.h"
+#include "12.h"
 
 #include <stdexcept>
 
@@ -42,6 +43,8 @@ namespace advent { namespace y2015
 			return d10::getParts();
 		if ("11" == day)
 			return d11::getParts();
+		if ("12" == day)
+			return d12::getParts();
 
 		throw std::invalid_argument("Encountered unparseable day");
 	}

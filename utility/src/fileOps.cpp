@@ -41,5 +41,17 @@ namespace advent { namespace utility { namespace fileOps
 
 		return result;
 	}
+
+	nlohmann::json readFileToJson(
+			const std::string& inFilename)
+	{
+		nlohmann::json result;
+
+		std::ifstream inf(inFilename);
+
+		inf >> result;
+
+		return result;
+	}
 } } }
 

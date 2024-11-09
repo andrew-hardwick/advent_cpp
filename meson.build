@@ -4,8 +4,6 @@ dir_base = meson.current_source_dir()
 
 dir_install = join_paths(dir_base, 'result')
 
-argp_dep = dependency('argparse')
-
 inc_dirs = include_directories(
   'inc',
 )
@@ -22,7 +20,11 @@ advent2015_dep = advent2015.get_variable('advent2015_dep')
 adventUtility = subproject('adventUtility')
 adventUtility_dep = adventUtility.get_variable('adventUtility_dep')
 
+argp_dep = dependency('argparse')
 openssl_dep = dependency('openssl')
+
+nlohmann_json = subproject('json')
+nlohmann_json_dep = nlohmann_json.get_variable('nlohmann_json_dep')
 
 executable(
   'advent',
@@ -31,6 +33,7 @@ executable(
   dependencies:[
     argp_dep,
     openssl_dep,
+    nlohmann_json_dep,
     advent2015_dep,
     adventUtility_dep,
   ],
