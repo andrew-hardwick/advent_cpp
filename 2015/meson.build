@@ -3,7 +3,7 @@ project('advent2015', 'cpp', default_options: [ 'default_library=static', 'warni
 inc_dirs = include_directories('inc')
 
 source=[
-	'src/lib{year}.cpp',
+	'src/lib2015.cpp',
 	'src/01.cpp',
 	'src/02.cpp',
 	'src/03.cpp',
@@ -34,12 +34,16 @@ source=[
 adventUtility = subproject('adventUtility')
 adventUtility_dep = adventUtility.get_variable('adventUtility_dep')
 
+nlohmann_json = subproject('json')
+nlohmann_json_dep = nlohmann_json.get_variable('nlohmann_json_dep')
+
 advent2015 = library(
 	'advent2015',
 	source,
 	include_directories:inc_dirs,
 	dependencies:[
 		adventUtility_dep,
+    nlohmann_json_dep,
 	],
 )
 

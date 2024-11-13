@@ -25,12 +25,17 @@ def create_folders(
 
 def create_meson_build_file(
         year):
-    with open(os.path.join(year, 'meson.build'), 'w') as f:
+    filename = os.path.join(year, 'meson.build')
+
+    if os.path.exists(filename):
+        return
+
+    with open(filename, 'w') as f:
         f.write(f"project('advent{year}', 'cpp', default_options: [ 'default_library=static', 'warning_level=1', 'werror=false', 'cpp_std=c++17' ], version:'0.0.1')\n\n")
 
         f.write("inc_dirs = include_directories('inc')\n\n")
 
-        f.write("source=[\n\t'src/lib{year}.cpp',\n")
+        f.write(f"source=[\n\t'src/lib{year}.cpp',\n")
 
         for d in range(25):
             f.write(f"\t'src/{d + 1:02}.cpp',\n")
