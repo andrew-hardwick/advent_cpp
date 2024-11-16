@@ -66,7 +66,7 @@ namespace advent { namespace utility { namespace vectorMath
 	T sum(
 			const std::vector<T>& a)
 	{
-		T result;
+		T result = 0;
 
 		for (const auto& e : a)
 		{
