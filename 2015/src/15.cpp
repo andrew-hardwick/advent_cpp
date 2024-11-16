@@ -1,13 +1,15 @@
 #include "15.h"
 
-#include <functional>
-#include <iostream>
+#include <cstddef>
+#include <limits>
 #include <string>
+#include <sys/select.h>
 #include <vector>
 
 #include "fileOps.h"
 #include "stringUtils.h"
-#include "vectorMath.h"
+
+#define UPPER_LIMIT 100
 
 
 namespace advent { namespace y2015 { namespace d15
@@ -42,100 +44,115 @@ namespace advent { namespace y2015 { namespace d15
 		return { name, values, calories };
 	}
 
-	std::vector<ingredient_t> loadInput(
+	std::tuple<int*, int, int*> loadInput(
 			const std::string& inFilename)
 	{
 		auto source = utility::fileOps::readFileToLines(inFilename);
 
-		std::vector<ingredient_t> result;
+		int* ingredients = (int*)malloc(4 * 4 * sizeof(int));
+		int* calories = (int*)malloc(4 * sizeof(int));
 
-		for (const auto& line : source)
+		for (std::size_t i = 0; i < source.size(); i++)
 		{
-			result.push_back(parseLine(line));
-		}
+			const auto& line = source[i];
 
-		return result;
-	}
+			auto parsed = parseLine(line);
 
-	std::tuple<int, int> evaluateRecipe(
-			const std::vector<ingredient_t>& ingredients,
-			const std::vector<int> amounts)
-	{
-		std::vector<int> ingredientValues;
-		int calories = 0;
-
-		for (std::size_t i = 0; i < ingredients.at(0).values.size(); i++)
-		{
-			ingredientValues.push_back(0);
-		}
-
-		for (std::size_t i = 0; i < amounts.size(); i++)
-		{
-			auto ingredientValue = utility::vectorMath::multiplyByScalar(ingredients.at(i).values, amounts.at(i));
-
-			for (std::size_t j = 0; j < ingredientValue.size(); j++)
+			for (std::size_t j = 0; j < parsed.values.size(); j++)
 			{
-				ingredientValues[j] += ingredientValue[j];
+				ingredients[i * 4 + j] = parsed.values[j];
 			}
 
-			calories += amounts[i] * ingredients[i].calories;
+			calories[i] = parsed.calories;
 		}
 
-		return { utility::vectorMath::sum(ingredientValues), calories };
+		return { ingredients, source.size(), calories };
 	}
 
-	std::vector<int> getBalancedAmounts(
-			std::size_t count,
-			int total)
+	int evaluateRecipe(
+			int* ingredients,
+			int* caloriesSource,
+			std::size_t numIngredients,
+			int* counts,
+			int calorieTarget)
 	{
-		std::vector<int> result;
+		int propValues[4] { 0, 0, 0, 0 };
+		int calories = 0;
 
-		int portion = total / count;
-		int remainder = total % count;
-
-		for (std::size_t i = 0; i < count; i++)
+		for (std::size_t i = 0; i < numIngredients; i++)
 		{
-			result.push_back(portion);
+			for (std::size_t j = 0; j < 4; j++)
+			{
+				propValues[j] += ingredients[i * 4 + j] * counts[i];
+			}
+
+			calories += caloriesSource[i] * counts[i];
 		}
 
-		result.at(0) += remainder;
+		if (calorieTarget != -1 && calories != calorieTarget)
+			return 0;
+
+		auto result = 1;
+
+		for (std::size_t i = 0; i < 4; i++)
+		{
+			if (propValues[i] < 0)
+				result = 0;
+
+			result *= propValues[i];
+		}
 
 		return result;
 	}
 
-	void optimize(
-			std::vector<int>& amounts,
-			const std::vector<ingredient_t>& ingredients,
-			std::function<bool(int)> isRecipeAcceptable,
-			float momentum,
-			std::function<int(int)> reduceMomentum)
+	int findMaxValue(
+			int* ingredients,
+			int* calories,
+			std::size_t numIngredients,
+			int calorieTarget)
 	{
+		int result = std::numeric_limits<int>::min();
+
+		int counts[4];
+
+		for (counts[0] = 0; counts[0] <= UPPER_LIMIT; counts[0]++)
+		{
+			for (counts[1] = 0; counts[0] + counts[1] <= UPPER_LIMIT; counts[1]++)
+			{
+				for (counts[2] = 0; counts[0] + counts[1] + counts[2] <= UPPER_LIMIT; counts[2]++)
+				{
+					for (counts[3] = 0; counts[0] + counts[1] + counts[2] + counts[3] <= UPPER_LIMIT; counts[3]++)
+					{
+						auto optionResult = evaluateRecipe(ingredients, calories, numIngredients, counts, calorieTarget);
+
+						result = result > optionResult ? result : optionResult;
+					}
+				}
+			}
+		}
+
+		return result;
 	}
+
 
 	std::string partOne(
 			const std::string& inFilename)
 	{
-		auto ingredients = loadInput(inFilename);
+		const auto& [ ingredients, numIngredients, calories ] = loadInput(inFilename);
 
-		auto amounts = getBalancedAmounts(ingredients.size(), 100);
+		auto result = findMaxValue(ingredients, calories, numIngredients, -1);
 
-		auto isRecipeAcceptable = [](int c){return true;};
-		auto reduceMomentum = [](float momentum)
-		{
-			return momentum * 0.99;
-		};
-
-		optimize(amounts, ingredients, isRecipeAcceptable, 15, reduceMomentum);
-
-		auto [ score, calories ] = evaluateRecipe(ingredients, amounts);
-
-		return std::to_string(score);
+		return std::to_string(result);
 	}
 
 	std::string partTwo(
 			const std::string& inFilename)
 	{
-		return "nonimpl";
+		const auto& [ ingredients, numIngredients, calories ] = loadInput(inFilename);
+
+		auto result = findMaxValue(ingredients, calories, numIngredients, 500);
+
+		return std::to_string(result);
 	}
 
 	std::pair<adventFunctor, adventFunctor> getParts()

@@ -8,6 +8,26 @@
 namespace advent { namespace utility { namespace vectorMath
 {
 	template <class T>
+	std::vector<T> add(
+			const std::vector<T>& a,
+			const std::vector<T>& b)
+	{
+		std::vector<T> result;
+
+		if (a.size() != b.size())
+		{
+			throw std::invalid_argument("vectorMath::add: vector lengths must match");
+		}
+
+		for (std::size_t i = 0; i < a.size(); i++)
+		{
+			result.push_back(a[i] + b[i]);
+		}
+
+		return result;		
+	}
+
+	template <class T>
 	std::vector<T> piecewiseMultiply(
 			const std::vector<T>& a,
 			const std::vector<T>& b)
@@ -16,12 +36,12 @@ namespace advent { namespace utility { namespace vectorMath
 
 		if (a.size() != b.size())
 		{
-			throw std::invalid_argument("piecewiseMultiply: vector lengths must match");
+			throw std::invalid_argument("vectorMath::piecewiseMultiply: vector lengths must match");
 		}
 
 		for (std::size_t i = 0; i < a.size(); i++)
 		{
-			result.push_back(a[i], a[i]);
+			result.push_back(a[i] * b[i]);
 		}
 
 		return result;

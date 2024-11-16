@@ -3,11 +3,6 @@
 
 namespace advent { namespace utility { namespace combinatorics
 {
-	std::vector<std::vector<std::size_t>> combinations(
-			std::size_t length)
-	{
-	}
-
 	/// Heaps algorithm
 	std::vector<std::vector<std::size_t>> permutations(
 			std::size_t length)

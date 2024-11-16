@@ -17,6 +17,9 @@ source = [
 advent2015 = subproject('advent2015')
 advent2015_dep = advent2015.get_variable('advent2015_dep')
 
+advent2024 = subproject('advent2024')
+advent2024_dep = advent2024.get_variable('advent2024_dep')
+
 adventUtility = subproject('adventUtility')
 adventUtility_dep = adventUtility.get_variable('adventUtility_dep')
 
@@ -35,6 +38,7 @@ executable(
     openssl_dep,
     nlohmann_json_dep,
     advent2015_dep,
+    advent2024_dep,
     adventUtility_dep,
   ],
   install:true,
