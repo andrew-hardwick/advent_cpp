@@ -5,8 +5,6 @@
 #include "fileOps.h"
 #include "stringUtils.h"
 
-#include <cstdlib>
-
 
 namespace advent { namespace y2024 { namespace d02
 {
@@ -31,6 +29,9 @@ namespace advent { namespace y2024 { namespace d02
 	uint evaluateReportPartOne(
 			const std::vector<int>& report)
 	{
+		if (report.size() < 2)
+			return 0;
+
 		if (report[0] == report[1])
 			return 0;
 
