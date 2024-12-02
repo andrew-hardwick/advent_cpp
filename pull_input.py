@@ -8,31 +8,29 @@ from aocd import get_data
 
 
 def main(
-        year):
+        year,
+        day):
     input_dir = 'input'
 
     if not os.path.exists(input_dir):
         os.mkdir(input_dir)
 
-    for day in range(1, 26):
-        filename = f'{year}_{day:02}'
-        filename = os.path.join(input_dir, filename)
-        
-        if os.path.exists(filename):
-            print(f'skipping {year} {day}. Input file exists')
+    filename = f'{year}_{day:02}'
+    filename = os.path.join(input_dir, filename)
+    
+    if os.path.exists(filename):
+        print(f'skipping {year} {day}. Input file exists')
 
-            continue;
+        return
 
-        print(f'pulling {year} {day}')
 
-        data = get_data(day=day, year=year)
+    print(f'pulling {year} {day}')
 
-        with open(filename, 'w') as f:
-            f.write(data)
+    data = get_data(day=day, year=year)
 
-        time.sleep(1.5)
+    with open(filename, 'w') as f:
+        f.write(data)
 
-        print(f'year {year} complete')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -40,9 +38,9 @@ if __name__ == '__main__':
             description='Pull input for a year in this C++ AoC repo')
 
     parser.add_argument('year')
+    parser.add_argument('day')
 
     args = parser.parse_args()
 
-    main(args.year)
-
+    main(int(args.year), int(args.day))
 

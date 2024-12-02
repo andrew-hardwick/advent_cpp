@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "lib2015.h"
+#include "lib2024.h"
 
 
 namespace advent
@@ -52,9 +53,9 @@ namespace advent
 			const std::string& day)
 	{
 		if ("2015" == year)
-		{
 			return y2015::getDay(day);
-		}
+		if ("2024" == year)
+			return y2024::getDay(day);
 
 		throw std::invalid_argument("Encountered unparseable year");
 	}

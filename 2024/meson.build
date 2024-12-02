@@ -34,12 +34,16 @@ source=[
 adventUtility = subproject('adventUtility')
 adventUtility_dep = adventUtility.get_variable('adventUtility_dep')
 
+nlohmann_json = subproject('json')
+nlohmann_json_dep = nlohmann_json.get_variable('nlohmann_json_dep')
+
 advent2024 = library(
 	'advent2024',
 	source,
 	include_directories:inc_dirs,
 	dependencies:[
 		adventUtility_dep,
+    nlohmann_json_dep,
 	],
 )
 
