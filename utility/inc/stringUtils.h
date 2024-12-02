@@ -19,7 +19,8 @@ namespace advent { namespace utility { namespace string
 			const std::vector<std::string>& source);
 
 	std::vector<int> parseToIntArray(
-			const std::string& source);
+			const std::string& source,
+			const std::string& delimiter);
 
 	bool leadCharMatches(
 			const std::string& target,

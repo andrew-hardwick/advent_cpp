@@ -59,10 +59,11 @@ namespace advent { namespace utility { namespace string
 		return result;
 	}
 
-	std::vector<int> parseListToIntArray(
-			const std::string& source)
+	std::vector<int> parseToIntArray(
+			const std::string& source,
+			const std::string& delimiter)
 	{
-		auto splitSource = split(source, ",");
+		auto splitSource = split(source, delimiter);
 
 		return convertToIntArray(splitSource);
 	}
