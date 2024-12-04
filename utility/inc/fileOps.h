@@ -9,6 +9,9 @@
 
 namespace advent { namespace utility { namespace fileOps
 {
+	std::string readFileRaw(
+			const std::string& inFilename);
+
 	std::vector<char> readFileToChars(
 			const std::string& inFilename);
 

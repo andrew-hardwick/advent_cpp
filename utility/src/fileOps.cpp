@@ -2,11 +2,26 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 
 namespace advent { namespace utility { namespace fileOps
 {
+	std::string readFileRaw(
+			const std::string& inFilename)
+	{
+		std::ifstream inf(inFilename);
+
+		std::stringstream strStream;
+
+		strStream << inf.rdbuf();
+
+		std::string result = strStream.str();
+
+		return result;
+	}
+
 	std::vector<char> readFileToChars(
 			const std::string& inFilename)
 	{
