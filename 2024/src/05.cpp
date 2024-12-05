@@ -84,9 +84,9 @@ namespace advent { namespace y2024 { namespace d05
 	int getMiddleValue(
 			const std::vector<int>& update)
 	{
-			auto middleIndex = update.size() / 2;
+		auto middleIndex = update.size() / 2;
 
-			return update.at(middleIndex);
+		return update.at(middleIndex);
 	}
 
 	std::string partOne(
